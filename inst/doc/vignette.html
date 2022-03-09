@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>sentiment.ai</title>
+
+<script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="data:text/css,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" type="text/css" />
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">sentiment.ai</h1>
+
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sentiment.ai)</span></code></pre></div>
+<p>Package for using deep learning models (from tf hub) for easy sentiment analysis.</p>
+<p><strong>See github.io page here</strong> <a href="https://benwiseman.github.io/sentiment.ai/">https://benwiseman.github.io/sentiment.ai/</a></p>
+<div id="overview" class="section level1">
+<h1>Overview</h1>
+<p><code>sentiment.ai</code> is for researchers and tinkerers who want a straight-forward way to use powerful, open source deep learning models to improve their sentiment analyses. Our approach is relatively simple and out performs the current best offerings on CRAN and even Microsoft’s Azure Cognitive Services. Given that we felt the current norm for sentiment analysis isn’t quite good enough, we decided to open-source our simplified interface to turn Universal Sentence Encoder embedding vectors into sentiment scores.</p>
+<p>We’ve wrapped a lot of the underlying hassle up to make the process as simple as possible. In addition to just being cool, this approach solves several problems with traditional sentiment analysis, namely:</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>More robust</strong>, can handle spelling mitsakes and mixed case, and can be applied to <strong>dieciséis (16) languages</strong>!</p></li>
+<li><p><strong>Doesn’t need a ridged lexicon</strong>, rather it matches to an embedding vector (reduces language to a vector of numbers that capture the information, kind of like a PCA). This means you can get scores for words that are not in the lexicon but are similar to existing words!</p></li>
+<li><p><strong>Choose the context</strong> for what negative and positive mean using the <code>sentiment_match()</code> function. For example, you could set <code>positive</code> to mean <code>&quot;high quality&quot;</code> and negative to mean <code>&quot;low quality&quot;</code> when looking at product reviews.</p></li>
+<li><p><strong>Power</strong> Because it draws from language embedding models trained on billions of texts, news articles, and wikipedia entries, it is able to detect things such as <em>“I learned so much on my trip to Hiroshima museum last year!”</em> is associated with something positive and that <em>“What happeded to the people of Hiroshima in 1945”</em> is associated with something negative.</p></li>
+<li><p><strong>The power is yours</strong> We’ve designed <code>sentiment.ai</code> such that the community can contribute sentiment models via github. This way, it’s easier for the community to work together to make sentiment analysis more reliable! Currently only xgboost and glms (trained on the 512-D embeddings generated with tensorflow) are supported, however in a future update we will add functionality to allow arbitrary sentiment scoring models.</p></li>
+</ol>
+</div>
+<div id="simple-example" class="section level1">
+<h1>Simple Example</h1>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the package</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(sentiment.ai)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(SentimentAnalysis)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(sentimentr)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Only if it&#39;s your first ever time</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># sentiment.ai.install()</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Initiate the model</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># This will create the sentiment.ai.embed model</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Do this so it can be reused without recompiling - especially on GPU!</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="fu">init_sentiment.ai</span>()</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>text <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;What a great car. It stopped working after a week.&quot;</span>,</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Steve Irwin working to save endangered species&quot;</span>,</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Bob Ross teaching people how to paint&quot;</span>,</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;I saw Adolf Hitler on my vacation in Argentina...&quot;</span>,</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;the resturant served human flesh&quot;</span>,</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;the resturant is my favorite!&quot;</span>,</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;the resturant is my favourite!&quot;</span>,</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;this restront is my FAVRIT innit!&quot;</span>,</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;the resturant was my absolute favorite until they gave me food poisoning&quot;</span>,</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;This fantastic app freezes all the time!&quot;</span>,</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;I learned so much on my trip to Hiroshima museum last year!&quot;</span>,</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;What happened to the people of Hiroshima in 1945&quot;</span>,</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;I had a blast on my trip to Nagasaki&quot;</span>,</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;The blast in Nagasaki&quot;</span>,</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;I love watching scary horror movies&quot;</span>,</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;This package offers so much more nuance to sentiment analysis!&quot;</span>,</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>     <span class="st">&quot;you remind me of the babe. What babe? The babe with the power! What power? The power of voodoo. Who do? You do. Do what? Remind me of the babe!&quot;</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a><span class="co"># sentiment.ai</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>sentiment.ai.score <span class="ot">&lt;-</span> <span class="fu">sentiment_score</span>(text)</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a><span class="co"># From Sentiment Analysis</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>sentimentAnalysis.score <span class="ot">&lt;-</span> <span class="fu">analyzeSentiment</span>(text)<span class="sc">$</span>SentimentQDAP</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a><span class="co"># From sentimentr</span></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>sentimentr.score <span class="ot">&lt;-</span> <span class="fu">sentiment_by</span>(<span class="fu">get_sentences</span>(text), <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(text))<span class="sc">$</span>ave_sentiment</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>example <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">target =</span> text, </span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>                      <span class="at">sentiment.ai =</span> sentiment.ai.score,</span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>                      <span class="at">sentimentAnalysis =</span> sentimentAnalysis.score,</span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>                      <span class="at">sentimentr =</span> sentimentr.score)</span></code></pre></div>
+<table>
+<colgroup>
+<col width="15%" />
+<col width="28%" />
+<col width="33%" />
+<col width="22%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">target</th>
+<th align="center">sentiment.ai</th>
+<th align="center">sentimentAnalysis</th>
+<th align="center">sentimentr</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">What a great car. It stopped working after a week.</td>
+<td align="center">-0.7</td>
+<td align="center">0.4</td>
+<td align="center">0.09</td>
+</tr>
+<tr class="even">
+<td align="center">Steve Irwin working to save endangered species</td>
+<td align="center">0.27</td>
+<td align="center">0.17</td>
+<td align="center">-0.09</td>
+</tr>
+<tr class="odd">
+<td align="center">Bob Ross teaching people how to paint</td>
+<td align="center">0.28</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">I saw Adolf Hitler on my vacation in Argentina…</td>
+<td align="center">-0.29</td>
+<td align="center">0</td>
+<td align="center">0.27</td>
+</tr>
+<tr class="odd">
+<td align="center">the resturant served human flesh</td>
+<td align="center">-0.32</td>
+<td align="center">0.25</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">the resturant is my favorite!</td>
+<td align="center">0.8</td>
+<td align="center">0.5</td>
+<td align="center">0.34</td>
+</tr>
+<tr class="odd">
+<td align="center">the resturant is my favourite!</td>
+<td align="center">0.78</td>
+<td align="center">0 0</td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="center">this restront is my FAVRIT innit!</td>
+<td align="center">0.63</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">the resturant was my absolute favorite until they gave me food poisoning</td>
+<td align="center">-0.36</td>
+<td align="center">0</td>
+<td align="center">0.12</td>
+</tr>
+<tr class="even">
+<td align="center">This fantastic app freezes all the time!</td>
+<td align="center">-0.41</td>
+<td align="center">0.25</td>
+<td align="center">0.13</td>
+</tr>
+<tr class="odd">
+<td align="center">I learned so much on my trip to Hiroshima museum last year!</td>
+<td align="center">0.64</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">What happened to the people of Hiroshima in 1945</td>
+<td align="center">-0.58</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">I had a blast on my trip to Nagasaki 0.73</td>
+<td align="center">-0.33</td>
+<td align="center">-0.13</td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="center">The blast in Nagasaki</td>
+<td align="center">-0.51</td>
+<td align="center">-0.5</td>
+<td align="center">-0.2</td>
+</tr>
+<tr class="odd">
+<td align="center">I love watching scary horror movies 0.54</td>
+<td align="center">0</td>
+<td align="center">-0.31</td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="center">This package offers so much more nuance to sentiment analysis!</td>
+<td align="center">0.74</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">you remind me of the babe. What babe? The babe with the power! What power? The power of voodoo. Who do? You do. Do what? Remind me of the babe!</td>
+<td align="center">0.55</td>
+<td align="center">0.3</td>
+<td align="center">-0.05</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="installation-setup" class="section level1">
+<h1>Installation &amp; Setup</h1>
+<div id="new-installation" class="section level2">
+<h2>New installation</h2>
+<p>After installing <code>sentiment.ai</code> from CRAN, you will need to make sure you have a compatible python environment for <code>tensorflow</code> and <code>tensorflow-text</code>. As this can be a cumbersome experience, we included a convenience function to install that for you:</p>
+<p><code>install_sentiment.ai()</code></p>
+<p><strong>This only needs to be run the first time you install the package</strong>. If you’re feeling adventurous, you can modify the environment it will create with the following paramaters:</p>
+<ul>
+<li><p><code>envname</code> - the name of the virtual environment</p></li>
+<li><p><code>method</code> - if you specifically want “conda” or “virtualenv”</p></li>
+<li><p><code>gpu</code> - set to TRUE if you want to run tensorflow-gpu</p></li>
+<li><p><code>python_version</code> - The python version used in the virtual environment</p></li>
+<li><p><code>modules</code> - a names list of the dependencies and versions</p></li>
+</ul>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Just leave this as default unless you have a good reason to change it. </span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># This is quite dependent on specific versions of python moduules</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">install_sentiment.ai</span>()</span></code></pre></div>
+<p>Assuming you’re using RStudio, it can be helpful to go to <code>tools &gt; global options &gt; python &gt; python interpreter</code> and set your new tensorflow-ready environment as the default interpreter. There’salso an option for automatically setting project-level environments,</p>
+<p><strong>Note for GPU installations:</strong> you’ll need to make sure you have a compatible version of CUDA installed. Here is a helpful guide to pick your CUDA version: <a href="https://www.tensorflow.org/install/source#gpu" class="uri">https://www.tensorflow.org/install/source#gpu</a></p>
+<br>
+<hr>
+<p><br></p>
+</div>
+<div id="initialize" class="section level2">
+<h2>Initialize</h2>
+<p>You’ll probably want to initialize the language embedding model first if you want to 1) not use the default models, and 2) want to re-apply sentiment scoring without the overhead of preparing the embedding model in memory. Pre-initializing with <code>init_sentiment.ai()</code> is useful for making downstream sentiment scoring and matching run smoothly, especially on GPU.</p>
+<p><strong>Technically</strong> <code>init_sentiment.ai()</code> will give access to a function called <code>sentiment.ai_embed$f()</code> which uses the pre-trained tensorflow model to embed a vector of text. Power users, the curious, and the damned may want to look in (Helper Functions for an example of this magic)[#power-move].</p>
+<p><code>init_sentiment.ai()</code> has the following optional paramaters:</p>
+<div id="model" class="section level3">
+<h3><code>model</code></h3>
+<p>The default Universal Sentence Encoder models available are:</p>
+<ul>
+<li><p><code>en.large</code> (default) use this when your text is in English and you aren’t too worried about resource use (i.e. compute time and RAM). This is the most powerful option.</p></li>
+<li><p><code>en</code> use this when your text is English but your computer can’t handle the larger model.</p></li>
+<li><p><code>multi.large</code> use this when your text is multi lingual and you aren’t too worried about resource use (i.e. compute time and RAM)</p></li>
+<li><p><code>multi</code> use this when your text is multi lingual but your computer can’t handle the larger model.</p></li>
+<li><p>A custom tfhub URL - we try to accommodate this if you, for example, want to use an older USE model. This should work but we don’t guarantee it!</p></li>
+</ul>
+<p>Example:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># NOTEL In most cases all you need is this:!!</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">init_sentiment.ai</span>()</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># To change the default behavior:</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># e.g. to initialise for use on multi lingual comments:</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># leave envname alone unless you have a good reason to change it! </span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">init_sentiment.ai</span>(<span class="at">model =</span> <span class="st">&quot;multi.large&quot;</span>)</span></code></pre></div>
+</div>
+<div id="envname" class="section level3">
+<h3><code>envname</code></h3>
+<p>default is <code>envname = &quot;r-sentiment-ai&quot;</code> - only change this if you set a different environment in <code>install_sentiment.ai()</code></p>
+<hr>
+</div>
+</div>
+</div>
+<div id="sentiment-analysis" class="section level1">
+<h1>Sentiment Analysis</h1>
+<div id="sentiment_score" class="section level2">
+<h2>sentiment_score()</h2>
+<p>For most use cases, <code>sentiment_score()</code> is the function you’ll use.</p>
+<p>Returns a vector of sentiment scores. The scores are a rescaled probability of being positive (i.e 0 to 1 scaled as -1 to 1). These are calculated with a secondary scoring model which, by default is from xgboost (a simple GLM is available if for some reason xgboost doesn’t work for you!).</p>
+<p>The paramaters <code>sentiment_score()</code> takes are:</p>
+<ul>
+<li><p><code>x</code> character vector to analyse.</p></li>
+<li><p><code>model</code> (optional) the name of the embedding model you are using (from <code>init_sentiment.ai()</code>)</p></li>
+<li><p><code>scoring</code> (optional) the method of scoring sentiment. Options are <code>xgb</code> (default) and <code>glm</code>. <code>xgb</code> is generally more powerful, but requires xgboost (shouldn’t be an issue!), <code>glm</code> is faster and almost as powerful (can be better for more ‘black and white’ use cases)</p></li>
+<li><p><code>scoring_version</code> (optional) “1.0” is the default and (currently) only option. In future this will allow you to use updated/improved models.</p></li>
+<li><p><code>batch_szie</code> (optional) determines how many rows are processed at a time. On CPU this doesn’t change much, but can be important if you installed the GPU version. Put simply, small bathes take longer but use less RAM/VRAM, large batches run faster on GPU but could exhaust memopry if too large. Default is 100 (works reliably on an RTX 2080)</p></li>
+</ul>
+<p>Note that if <code>init_sentiment.ai()</code> has not been called before, the function will try to recover by calling it into the default environment. If you’re using CUDA/GPU acceleration, you’ll see a lot of work happening in the console as the model is compiled on the GPU.</p>
+<p>For example:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>my_comments <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Will you marry me?&quot;</span>, <span class="st">&quot;Oh, you&#39;re breaking up with me...&quot;</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># for English, default is fine</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">sentiment_score</span>(my_comments)</span></code></pre></div>
+</div>
+<div id="sentiment_match" class="section level2">
+<h2>sentiment_match()</h2>
+<p>Sometimes you want to classify comments too. For that, we added <code>sentiment_match()</code> which takes a list of positive and negative terms/phrases and returs a dataframe like so:</p>
+<table>
+<colgroup>
+<col width="15%" />
+<col width="17%" />
+<col width="16%" />
+<col width="27%" />
+<col width="23%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Text</th>
+<th align="center">Sentiment score</th>
+<th align="center">Phrase matched</th>
+<th align="center">Class of phrase matched</th>
+<th align="center">Similarity to phrase</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">“good stuff”</td>
+<td align="center">0.78</td>
+<td align="center">“something good”</td>
+<td align="center"><code>positive</code></td>
+<td align="center">.30</td>
+</tr>
+</tbody>
+</table>
+<p>While there are default lists of positive and negative phrases, you can overwrite them with your own. In this way you can quickly make inferences about the class of comments from your specific domain. The sentiment score is the same as calling <code>sentiment_score()</code> but you also get the most similar phrase, the category of that phrase, and the cosine similarity to the closest phrase.</p>
+<p>For example:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>my_comments <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Will you marry me?&quot;</span>, <span class="st">&quot;Oh, you&#39;re breaking up with me...&quot;</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>my_positives <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;excited&quot;</span>, <span class="st">&quot;loving&quot;</span>, <span class="st">&quot;content&quot;</span>, <span class="st">&quot;happy&quot;</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>my_negatives <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;lame&quot;</span>, <span class="st">&quot;lonely&quot;</span>, <span class="st">&quot;sad&quot;</span>, <span class="st">&quot;angry&quot;</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>my_categories <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">positive =</span> my_positives, <span class="at">negative =</span> my_negatives)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">sentiment_match</span>(<span class="at">x =</span> my_comments, <span class="at">phrases =</span> my_categories)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(result)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="do">##                                 text  sentiment phrase    class similarity</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="do">## 1:                Will you marry me?  0.5393031 loving positive  0.1723714</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="do">## 2: Oh, you&#39;re breaking up with me... -0.6585207    sad negative  0.1512707</span></span></code></pre></div>
+<p><strong>Note</strong> Cosine similarity is relative here &amp; longer text will tend to have lower overall similarity to a specific phrase!</p>
+<p><strong>Note 2</strong> You can also be tricky and pass in a list of arbitrary themes rather than just positive and negative - in this way <code>sentiment.ai</code> can do arbitrary category matching for you!</p>
+<hr>
+</div>
+</div>
+<div id="matrix-analysis" class="section level1">
+<h1>Matrix Analysis</h1>
+<div id="cosine" class="section level2">
+<h2>cosine()</h2>
+<p>A light equivilent of text2vec::sim2 that gives pairwise cosine similarity between each row of a matrix.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">4</span> <span class="sc">*</span> <span class="dv">6</span>), </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">ncol =</span> <span class="dv">6</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;c&quot;</span>, <span class="st">&quot;d&quot;</span>), <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>))</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">4</span> <span class="sc">*</span> <span class="dv">6</span>), </span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">ncol =</span> <span class="dv">6</span>,</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">&quot;w&quot;</span>, <span class="st">&quot;x&quot;</span>, <span class="st">&quot;y&quot;</span>, <span class="st">&quot;z&quot;</span>), <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span> ))</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co"># to check that it&#39;s the same result</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co"># all.equal(cosine(x1, x2), text2vec::sim2(x1, x2))</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="fu">cosine</span>(x1, x2)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="do">##            w          x           y           z</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="do">## a -0.1776981 -0.1743733  0.04111033  0.88174300</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="do">## b -0.5699782  0.6938432  0.21893192  0.05391341</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="do">## c  0.5076042  0.0169079  0.04563749  0.38885764</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="do">## d  0.2050958 -0.7644069 -0.74160285 -0.13175003</span></span></code></pre></div>
+</div>
+<div id="cosine_match" class="section level2">
+<h2>cosine_match()</h2>
+<p>This is a helper function to take two matrices, compute their <code>cosine</code> similarity, and give a pairwise ranked table. For example:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cosine_match</span>(<span class="at">target =</span> x1, <span class="at">reference =</span> x2)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="do">##     target reference  similarity rank</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="do">##  1:      a         w -0.17769814    4</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="do">##  2:      b         w -0.56997820    4</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="do">##  3:      c         w  0.50760421    1</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="do">##  4:      d         w  0.20509577    1</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="do">##  5:      a         x -0.17437331    3</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="do">##  6:      b         x  0.69384318    1</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="do">##  7:      c         x  0.01690790    4</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="do">##  8:      d         x -0.76440688    4</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="do">##  9:      a         y  0.04111033    2</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="do">## 10:      b         y  0.21893192    2</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="do">## 11:      c         y  0.04563749    3</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="do">## 12:      d         y -0.74160285    3</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="do">## 13:      a         z  0.88174300    1</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="do">## 14:      b         z  0.05391341    3</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="do">## 15:      c         z  0.38885764    2</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="do">## 16:      d         z -0.13175003    2</span></span></code></pre></div>
+<p>If you filter that to only the rows where rank is 1, you’ll have a table of the top matches between target and reference.</p>
+</div>
+<div id="embed_text" class="section level2">
+<h2>embed_text()</h2>
+<p>As an added bonus of manually calling <code>init_sentiment.ai()</code> you can call <code>embed_text()</code> to turn a vector of text into a numeric embedding matrix (e.g if you want to cluster comments).</p>
+<p>For example</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Note, there&#39;s some weird behavior when you do this with a single string! </span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>test_target <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;dogs&quot;</span>, <span class="st">&quot;cat&quot;</span>, <span class="st">&quot;IT&quot;</span>, <span class="st">&quot;computer&quot;</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>test_ref    <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;animals&quot;</span>, <span class="st">&quot;technology&quot;</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Work it!</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>target_mx <span class="ot">&lt;-</span> <span class="fu">embed_text</span>(test_target)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>ref_mx    <span class="ot">&lt;-</span> <span class="fu">embed_text</span>(test_ref)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>ref_mx[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="do">##                    [,1]       [,2]       [,3]          [,4]</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="do">## animals    -0.042174224 0.01914462 0.07767479 -0.0362021662</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="do">## technology  0.005067721 0.02222563 0.06019276  0.0006833972</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># And slay.</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">cosine_match</span>(target_mx, ref_mx)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>result[rank<span class="sc">==</span><span class="dv">1</span>] <span class="co"># filtered to top match (with data.table&#39;s [] syntax)</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="do">##      target  reference similarity rank</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="do">## 1:     dogs    animals  0.8034535    1</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="do">## 2:      cat    animals  0.6122806    1</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="do">## 3:       IT technology  0.4383662    1</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="do">## 4: computer technology  0.6668407    1</span></span></code></pre></div>
+<br>
+<hr>
+<p><br></p>
+</div>
+</div>
+<div id="roadmap" class="section level1">
+<h1>Roadmap</h1>
+<p>We want to continue making sentiment analysis easier and better, to that end future releases will include:</p>
+<ul>
+<li><p>More tuned sentiment scoring models</p></li>
+<li><p>Sentiment scoring that gives probabilities for positive, negative, and neutral.</p></li>
+<li><p>Scoring models from the community (technically this <em>should</em> already be possible)</p></li>
+<li><p>Option for updated python dependencies/environment (requires a lot of testing)</p></li>
+<li><p>Python module</p></li>
+<li><p>Support for GPU on OSX (current limitation with tensorflow on OSX)</p></li>
+<li><p>Support for other embedding models (e.g. infersent)</p></li>
+<li><p>Run language specific benchmarks for multilingual embedding model</p></li>
+</ul>
+<br>
+<hr>
+<p><br></p>
+</div>
+<div id="contribute-a-model" class="section level1">
+<h1>Contribute a Model!</h1>
+<p>Think you can make a better sentiment scoring model? Seeing as I’m far from the sharpest lighbulb out there, you probably can out do me! Simply train a model on text embeddings and add it to the models folder of this repo. Currently we only have support for xgb and glm models (xgb worked really well with minimal faff, and GLMs, saved as simple parameter weights, are super light weight). We will figure out a way to allow custom models, likely with a custom predict script in each model folder, but that’s a tomorrow-problem for now.</p>
+<p>The models directory contains models used to derrive sentiment after the neural nets have handles the embedding bit.</p>
+<p>Directory structure is: model_type/version/<embedding name>.<ext></p>
+<p>For example: models/xgb/1.0/en.large.xgb is the default scoring model in <code>sentiment_score(x)</code> which is the same as a user passing <code>sentiment_score(model=&quot;en.large&quot;, scoring=&quot;xgb&quot;, scoring_version=&quot;1.0&quot;)</code>.When called, <code>sentiment.ai</code> will pull the scoring model from github if it hasn’t done so already (default is installed during <code>install_sentiment.ai()</code>) and apply that to the embedded text.</p>
+<p><strong>NOTE</strong></p>
+<p>If you’d like to contribute a new/better/context specific model, use the same folder structure If it’s not a glm or XGB, let us know so we can make it work in find_sentiment_probs()! For non-xgb/glm models, please give an example R script of applying it to a matrix of embedded text so we can add support for it.</p>
+<p>We only ask that numeric version (e.g xgb/2.0/…) names be left for official/default models. For community models, the version can be a descriptor (so long as it’s a valid file name and URL!) e.g: xgb/jimbojones_imdb1/en.large.xgb This way we can keep it easy for less engaged people who want a package that “just works” while accommodating power users that want custom models</p>
+<p>If you have a general purpose model (i.e. trained on a variety of sources, not context specific) that out-performs the default ones, get in touch, we’ll test some extra benchmarks, and if it’s “just better” we’ll add it to become the new official/default (obviously giving you credit!) :)</p>
+<ul>
+<li>will add support to pass through custom github urls if you don’t feel like sharing. When that’s done you’d pass in: repo_url = “<a href="https://github.com/" class="uri">https://github.com/</a><your name>/<repo name>/raw/<branch>/models” in the … of <code>sentiment_score()</code> or <code>sentiment_match()</code>.</li>
+</ul>
+<p>NOTE FOR GLM MODELS</p>
+<p>saving a GLM object from R uses a LOT of space. Hence we save just the parameters in a csv. Just pull the coefficients, and write.csv like so:</p>
+<p><code>write.csv(model$coefficients, &quot;models/glm/foo_version/en.large.csv&quot;)</code></p>
+<p>should be a text file that looks like this:</p>
+<p>““,”x”</p>
+<p>“(Intercept)”,0.922440256482062</p>
+<p>“V1”,-6.42591883182618</p>
+<p>“V2”,-3.6621793890871</p>
+<p>…,…</p>
+<p>“V512”, 0.4204634269</p>
+<p>the column names don’t matter, only the position. e.g&gt; write.csv(model$coefficients, “models/glm/2.0”)</p>
+<br>
+<hr>
+<p><br></p>
+</div>
+<div id="troubleshooting" class="section level1">
+<h1>Troubleshooting</h1>
+<p>Because this package requires communication between R and Python, there be dragons. We’ve tried to make it as seamless as possible, and absorb the pains of working on a GPU via reticulate for you, but here are a few gremlins we’ve encountered when trying to use Python within R. We’ve tested clean installs on OSX, Windows, and Ubuntu (18 &amp; 20) and it’s playing nicely, but here were issues we encountered along the way:</p>
+<div id="rpytools-is-not-available" class="section level3">
+<h3><code>RPyTools  is not available</code></h3>
+<p>this happens on Windows sometimes. It appears to be a problem with Reticulate in RStudio. Weirdly the solution is to restart R and try the exact same thing again.</p>
+</div>
+<div id="running-on-a-proxy-serverdocker-container" class="section level3">
+<h3>Running on a proxy server/docker container</h3>
+<p>We’ve found it difficult to change environment for Reticulate in this case - try installing into the base <code>r-reticulate</code> environment.</p>
+</div>
+<div id="rstudio-changing-python-environment." class="section level3">
+<h3>Rstudio &amp; changing python environment.</h3>
+<p>As above. I’ve only encountered this a few times, I <strong>think</strong> it’s an issue of Rstudio countermanding the python environment. You can either install in the base reticulate environment OR go to tools &gt; global options &gt; python and force it to use <code>r-sentiment.ai</code> (or whatever environment you want)</p>
+<p>You may see this message if that’s going to be an issue:</p>
+<p><code>&quot;The RETICULATE_PYTHON environment variable is set, which can be due to being</code> <code>in a project (regardless of whether the global/project Python options are set),</code> <code>having the global/project Python options set, or having RETICULATE_PYTHON in</code> <code>your .Renviron file or bash/zsh rc files.&quot;</code></p>
+</div>
+<div id="error-messages-about-missing-python-modules" class="section level3">
+<h3>Error messages about missing python modules</h3>
+<p>Either something went wrong in <code>install_sentiment.ai()</code> OR Reticulate isn’t changing to the <code>r-sentiment.ai()</code> environment (see points above).</p>
+</div>
+<div id="error-in-py_run_file_implfile-local-convert" class="section level3">
+<h3><code>Error in py_run_file_impl(file, local, convert)</code></h3>
+<p>If you see a message like this:</p>
+<p><code>Preparing Model</code><br />
+<code>Error in py_run_file_impl(file, local, convert) :</code> <code>AttributeError: module &#39;tensorflow.python.feature_column.feature_column_v2&#39; has no attribute &#39;_BaseFeaturesLayer&#39;</code></p>
+<p>It may be due to a previously activated reticulate environment. e.g if you run <code>reticulate::py_config()</code> <code>reticulate</code> seems to set your environment to <code>r-reticulate</code> and won’t let that change, which may mess with your tensorflow setup. Starting a new R session seems to fix that.</p>
+</div>
+<div id="using-a-newer-version-of-tensorflow" class="section level3">
+<h3>Using a newer version of Tensorflow</h3>
+<p>Do so at your own risk! In my experience tensorflow and its dependencies are somewhat lacking in the forwards and backwards compatibility departments having an “it’s different now - deal with it” approach… If you experiment and manage get it working faster with a newer Tensorflow setup, let us know so we can update the package! If you want to use an older Tensorflow version you may be out of luck as the Universal Sentence Encoder models need the new(ish) tensorflow-text module.</p>
+</div>
+<div id="other-errors-during-installation-of-python-packages" class="section level3">
+<h3>Other errors during installation of python packages</h3>
+<p>May include incorrect tls/ssl configurations (‘pip is configured with locations that require TLS/SSL, however the ssl module in Python is not available’). Please see the following for advice on possible solutions to solve this problem, solutions may include ensuring correct path environment variables and/or resolving dll conflicts.<br />
++ Solutions for different operating systems : <a href="https://stackoverflow.com/questions/45954528/pip-is-configured-with-locations-that-require-tls-ssl-however-the-ssl-module-in" class="uri">https://stackoverflow.com/questions/45954528/pip-is-configured-with-locations-that-require-tls-ssl-however-the-ssl-module-in</a> + DLL Conflicts : <a href="https://stackoverflow.com/questions/41328451/ssl-module-in-python-is-not-available-when-installing-package-with-pip3" class="uri">https://stackoverflow.com/questions/41328451/ssl-module-in-python-is-not-available-when-installing-package-with-pip3</a></p>
+</div>
+<div id="nvidia-cuda-missing-dependencies" class="section level3">
+<h3>NVIDIA CUDA missing dependencies</h3>
+<p>If running on GPU, you’ll need need to make sure you have a compatible CUDA setup for tensorflow 2.4.1. For a list of compatible configurations, see <a href="https://www.tensorflow.org/install/source#gpu" class="uri">https://www.tensorflow.org/install/source#gpu</a>. On my personal Ubuntu 20 build, I ran into issues with <code>libcublas.so</code> - see <a href="https://github.com/tensorflow/tensorflow/issues/26182#issuecomment-684993950">this comment</a> which helped me to get CUDA working properly. Interestingly, Windows has been the least hassle to get tensorflow running on GPU!</p>
+</div>
+<div id="gpu-on-osx" class="section level3">
+<h3>GPU on OSX</h3>
+<p>This will be a challenge as Apple now have <a href="https://blog.tensorflow.org/2020/11/accelerating-tensorflow-performance-on-mac.html">their own fork of Tensorflow</a>, which we have not yet made a setup script for. If you want to use GPU acceleration on OSX, you’ll need to configure your own environment, but if you do get it working, please let us know what config worked!</p>
+</div>
+<div id="running-inside-of-rmarkdown" class="section level3">
+<h3>Running inside of Rmarkdown</h3>
+<p>This is a bit unhappy, but it you call init_sentiment.ai() in the R console before knitting, it works happily.</p>
+<br>
+<hr>
+<p><br></p>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
