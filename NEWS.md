@@ -1,3 +1,16 @@
+# sentiment.ai 0.1.1
+
+added silent argument in initsentiment.ai
+
+using method = "auto" in init_sentiment.ai() now uses py_discover_config
+
+Patch for case when no conda binary is present
+
+updated default python to 3.8.10 for virtualenv and conda compatibility
+
+* Fixed typos. Note that `get_default_embedding` had a typo in the initial launch and was called `get_defualt_embedding`. Make sure to update your code if you used this function.
+
+
 # sentiment.ai 0.1.0
 
 INITIAL RELEASE 

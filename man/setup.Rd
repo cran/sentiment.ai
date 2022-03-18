@@ -4,13 +4,13 @@
 \alias{install_sentiment.ai}
 \alias{init_sentiment.ai}
 \alias{check_sentiment.ai}
-\title{Install and Setup sentiment.ai Algorithm}
+\title{setup}
 \usage{
 install_sentiment.ai(
   envname = "r-sentiment-ai",
   method = c("auto", "virtualenv", "conda"),
   gpu = FALSE,
-  python_version = "3.7.10",
+  python_version = "3.8.10",
   modules = list(numpy = "1.19.5", sentencepiece = "0.1.95", tensorflow = "2.4.1",
     tensorflow_hub = "0.12.0", `tensorflow-text` = "2.4.3"),
   fresh_install = TRUE,
@@ -20,7 +20,9 @@ install_sentiment.ai(
 
 init_sentiment.ai(
   model = c("en.large", "multi.large", "en", "multi"),
-  envname = "r-sentiment-ai"
+  envname = "r-sentiment-ai",
+  method = c("auto", "virtualenv", "conda"),
+  silent = FALSE
 )
 
 check_sentiment.ai(...)
@@ -60,23 +62,27 @@ installation. Only works on Rstudio.}
 or \code{\link[reticulate:virtualenv-tools]{virtualenv_install()}}.}
 
 \item{model}{path to tensorflow hub embedding model. default is both universal
-sentence encoder  en (default) and multi}
+sentence encoder en (default) and multi.}
+
+\item{silent}{logical - do you want to suppress console logging? Can't affect tensorflow/GPU/python/c++ output, unfortunately.}
 }
 \value{
 NULL this function simply installs the required python dependencies and default scoring models and pre-calculated embedding vectors.
 
-python function to embed text can be returned, but is not necessary. embed_text() does this for you.
+python function to embed text can be returned, but is not necessary.
+\code{embed_text()} does this for you.
 
-NULL this function checks if init_sentiment.ai() has been called successfully, if not, it is called.
+NULL this function checks if \code{init_sentiment.ai()} has been called
+successfully, if not, it is called.
 }
 \description{
-Install and Setup sentiment.ai Algorithm
+Install and Setup sentiment.ai package
 }
 \details{
 Sets up environment specific for sentiment.ai. The packages that it currently
 needs are as follows:\tabular{lc}{
    Module \tab Version \cr
-   python \tab 3.7.10 \cr
+   python \tab 3.8.10 \cr
    numpy \tab 1.19.5 \cr
    tensorflow \tab 2.4.1 \cr
    tensorflow_hub \tab 0.12.0 \cr
@@ -85,7 +91,7 @@ needs are as follows:\tabular{lc}{
 }
 
 
-Please do not change these if you do not know what you are doing.
+Please do not change these unless you know what you are doing.
 
 Note that it installs with like \code{tensorflow::install_tensorflow} and
 \code{pip = TRUE}
@@ -107,7 +113,7 @@ version/environment is instantiated, you will not be able to change it and
 will have to restart R.
 \item If you are in \strong{any} project, at all! Currently (as of \code{reticulate} version
 1.22), every project automatically sets the RETICULATE_PYTHON environment
-variable, either through the Global or Project Options of by using heuristics.
+variable, either through the Global or Project Options or by using heuristics.
 If you are in an RStudio project, you \strong{must} update Global/Project Options
 with the specific version/environment of Python that you want to use, or
 you will not be able to change it!
@@ -127,7 +133,7 @@ allowable Python versions/environments.
 \dontrun{
 install_sentiment.ai(envname = "r-sentiment-ai",
                      method  = "conda",
-                     python_version = "3.7.10")
+                     python_version = "3.8.10")
 init_sentiment.ai(model   = "en.large",
                   envname = "r-sentiment-ai")
 check_sentiment.ai()
